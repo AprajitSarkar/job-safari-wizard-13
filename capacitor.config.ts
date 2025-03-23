@@ -6,7 +6,7 @@ const config: CapacitorConfig = {
   appName: 'RemoteJobFinder',
   webDir: 'dist',
   server: {
-    url: 'https://490444aa-40e3-4bcf-8cc7-a9ee164dbef8.lovableproject.com?forceHideBadge=true',
+    url: 'https://7e26981a-d013-46a9-8b84-6acca36c4a79.lovableproject.com?forceHideBadge=true',
     cleartext: true
   },
   android: {
@@ -14,6 +14,14 @@ const config: CapacitorConfig = {
       androidxCore: '1.10.1',
       androidxAppcompat: '1.6.1',
       androidxWebkit: '1.6.1'
+    }
+  },
+  plugins: {
+    CapacitorCookies: {
+      enabled: true
+    },
+    WebView: {
+      allowNavigation: ['*']
     }
   }
 };

@@ -42,7 +42,9 @@ const WebViewDialog = ({ url, isOpen, onOpenChange }: WebViewDialogProps) => {
             src={url} 
             title="Job Details" 
             className="w-full h-full border-none" 
-            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads allow-modals allow-orientation-lock allow-pointer-lock"
+            referrerPolicy="no-referrer"
+            allow="accelerometer; autoplay; camera; encrypted-media; geolocation; gyroscope; microphone; midi; payment; picture-in-picture"
           />
         </div>
       </DialogContent>
