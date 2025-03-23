@@ -75,11 +75,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background dark:bg-[#121212]">
-      <Header />
+      <Header 
+        searchValue={filters.searchTerm}
+        onSearchChange={handleSearchChange}
+      />
       
       <main className="flex-1">
         {/* Hero section */}
-        <section className="relative py-12 md:py-16 overflow-hidden">
+        <section className="relative py-8 md:py-12 overflow-hidden">
           <div className="absolute inset-0 -z-10 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10"></div>
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
@@ -94,20 +97,11 @@ const Index = () => {
                 Discover opportunities that align with your skills and aspirations. We curate the best jobs from top companies around the world.
               </p>
             </AnimatedContainer>
-            
-            <AnimatedContainer delay={100} className="mt-8 md:mt-12">
-              <SearchBar 
-                value={filters.searchTerm}
-                onChange={handleSearchChange}
-                className="max-w-3xl"
-                placeholder="Search for jobs, companies, or locations..."
-              />
-            </AnimatedContainer>
           </div>
         </section>
         
         {/* Filter section */}
-        <section className="py-6">
+        <section className="py-4">
           <div className="container px-4 sm:px-6">
             <FilterPanel 
               selectedCategory={filters.category}
@@ -119,7 +113,7 @@ const Index = () => {
         </section>
         
         {/* Jobs list section */}
-        <section className="py-8 md:py-12">
+        <section className="py-6 md:py-8">
           <div className="container px-4 sm:px-6">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-16">
