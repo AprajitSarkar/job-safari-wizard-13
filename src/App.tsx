@@ -16,7 +16,7 @@ import SplashScreen from "./components/SplashScreen";
 import GDPRConsent from "./components/GDPRConsent";
 import BannerAd from "./components/BannerAd";
 import { initializeAdMob, showAppOpenAd } from "./services/AdMobService";
-import { isPlatform } from "@capacitor/core";
+import { Capacitor } from "@capacitor/core";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +33,7 @@ const App = () => {
     
     // Initialize AdMob when the app starts
     const setupAds = async () => {
-      if (isPlatform('android') || isPlatform('ios')) {
+      if (Capacitor.isNativePlatform()) {
         await initializeAdMob();
         setShowAds(true);
       }

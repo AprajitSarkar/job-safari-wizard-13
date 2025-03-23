@@ -1,5 +1,5 @@
 
-import { isPlatform } from '@capacitor/core';
+import { Capacitor } from "@capacitor/core";
 
 // AdMob IDs - you'll need to replace these with your actual AdMob IDs
 // For testing, we're using Google's test IDs
@@ -23,7 +23,7 @@ let admobPlugin: any = null;
 export const initializeAdMob = async (): Promise<void> => {
   try {
     // Skip initialization if we're not running on a mobile device
-    if (!isPlatform('android') && !isPlatform('ios')) {
+    if (!Capacitor.isNativePlatform()) {
       console.log('AdMob initialization skipped: not running on a mobile device');
       return;
     }
@@ -33,11 +33,11 @@ export const initializeAdMob = async (): Promise<void> => {
     admobPlugin = AdMob;
 
     // Select the appropriate App ID based on platform
-    const appId = isPlatform('android') ? ADMOB_APP_ID.android : ADMOB_APP_ID.ios;
+    const appId = Capacitor.getPlatform() === 'android' ? ADMOB_APP_ID.android : ADMOB_APP_ID.ios;
     
     // Initialize AdMob
     await AdMob.initialize({
-      requestTrackingAuthorization: true,
+      // Using only the supported options
       initializeForTesting: true, // Set to false for production
       testingDevices: ['EMULATOR'],
     });
@@ -75,7 +75,7 @@ export const showBannerAd = async (): Promise<void> => {
     if (!admobPlugin) return;
     
     // Select the appropriate Banner ID based on platform
-    const adId = isPlatform('android') ? BANNER_AD_ID.android : BANNER_AD_ID.ios;
+    const adId = Capacitor.getPlatform() === 'android' ? BANNER_AD_ID.android : BANNER_AD_ID.ios;
     
     // Configure and show the banner
     await admobPlugin.showBanner({
@@ -105,7 +105,7 @@ export const showAppOpenAd = async (): Promise<void> => {
     if (!admobPlugin) return;
     
     // Select the appropriate App Open Ad ID based on platform
-    const adId = isPlatform('android') ? APP_OPEN_AD_ID.android : APP_OPEN_AD_ID.ios;
+    const adId = Capacitor.getPlatform() === 'android' ? APP_OPEN_AD_ID.android : APP_OPEN_AD_ID.ios;
     
     // Prepare and show the app open ad
     await admobPlugin.prepareAppOpenAd({
