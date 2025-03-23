@@ -36,10 +36,10 @@ const FilterPanel = ({
               key={category}
               onClick={() => onCategoryChange(category)}
               className={cn(
-                'px-3 py-1.5 text-xs font-medium rounded-full transition-all duration-200',
+                'px-4 py-2 text-xs font-medium rounded-full transition-all duration-200 android-btn',
                 selectedCategory === category
-                  ? 'bg-primary text-white shadow-sm'
-                  : 'bg-secondary/10 hover:bg-secondary/20 text-foreground'
+                  ? 'bg-primary text-white android-elevation-1'
+                  : 'bg-secondary/30 hover:bg-secondary/50 text-foreground dark:bg-secondary/10 dark:hover:bg-secondary/20'
               )}
             >
               {category}
@@ -59,10 +59,10 @@ const FilterPanel = ({
               key={location}
               onClick={() => onLocationChange(location)}
               className={cn(
-                'px-3 py-1.5 text-xs font-medium rounded-full transition-all duration-200',
+                'px-4 py-2 text-xs font-medium rounded-full transition-all duration-200 android-btn',
                 selectedLocation === location
-                  ? 'bg-primary text-white shadow-sm'
-                  : 'bg-secondary/10 hover:bg-secondary/20 text-foreground'
+                  ? 'bg-primary text-white android-elevation-1'
+                  : 'bg-secondary/30 hover:bg-secondary/50 text-foreground dark:bg-secondary/10 dark:hover:bg-secondary/20'
               )}
             >
               {location}

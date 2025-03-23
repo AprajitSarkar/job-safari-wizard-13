@@ -20,7 +20,7 @@ const JobCard = ({ job, index, className }: JobCardProps) => {
   return (
     <div 
       className={cn(
-        'relative glass-card p-5 rounded-xl transition-all duration-300 hover:shadow-md will-change-transform',
+        'relative android-card p-5 rounded-xl transition-all duration-300 hover:shadow-md will-change-transform bg-white dark:bg-[#1A1F2C]',
         'opacity-0 animate-slide-in-bottom',
         `animate-delay-${Math.min(index * 100, 500)}`,
         className
@@ -32,25 +32,25 @@ const JobCard = ({ job, index, className }: JobCardProps) => {
           <h3 className="text-lg font-semibold line-clamp-2 text-pretty">{job.title}</h3>
           
           {job.remote && (
-            <span className="px-2 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full whitespace-nowrap">
+            <span className="px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full whitespace-nowrap dark:bg-primary/20">
               Remote
             </span>
           )}
         </div>
         
-        <div className="mt-3 space-y-2">
+        <div className="mt-3 space-y-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <BuildingIcon className="w-4 h-4" />
+            <BuildingIcon className="w-4 h-4 text-primary/70" />
             <span>{job.company_name}</span>
           </div>
           
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPinIcon className="w-4 h-4" />
+            <MapPinIcon className="w-4 h-4 text-primary/70" />
             <span>{job.location}</span>
           </div>
           
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <CalendarIcon className="w-4 h-4" />
+            <CalendarIcon className="w-4 h-4 text-primary/70" />
             <span>{formattedDate}</span>
           </div>
         </div>
@@ -60,7 +60,7 @@ const JobCard = ({ job, index, className }: JobCardProps) => {
             href={job.url} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline hover:text-primary/90 transition-colors"
+            className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline hover:text-primary/90 transition-colors android-btn px-4 py-2"
           >
             View Job 
             <ArrowUpRightIcon className="w-3 h-3" />
