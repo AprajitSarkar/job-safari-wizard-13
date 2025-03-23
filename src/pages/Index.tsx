@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
 import FilterPanel from '@/components/FilterPanel';
@@ -10,6 +9,7 @@ import { Job, JobCategory, JobLocation, JobFilters } from '@/utils/types';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Loader2Icon } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const Index = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -20,6 +20,7 @@ const Index = () => {
     searchTerm: '',
   });
   const isMobile = useIsMobile();
+  const location = useLocation();
 
   useEffect(() => {
     const loadJobs = async () => {
@@ -27,7 +28,6 @@ const Index = () => {
         setLoading(true);
         const response = await fetchJobs();
         
-        // Add unique IDs to jobs
         const jobsWithIds = response.data.map((job, index) => ({
           ...job,
           id: `job-${index}`,
@@ -45,24 +45,49 @@ const Index = () => {
     loadJobs();
   }, []);
 
+  useEffect(() => {
+    if (location.state && location.state.searchTerm) {
+      setFilters(prev => ({ ...prev, searchTerm: location.state.searchTerm }));
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
+
+  const saveSearchToHistory = useCallback((term: string) => {
+    if (!term.trim()) return;
+    
+    try {
+      const savedHistory = localStorage.getItem('searchHistory') || '[]';
+      const history = JSON.parse(savedHistory) as string[];
+      
+      const filteredHistory = history.filter(item => item !== term);
+      filteredHistory.unshift(term);
+      
+      const limitedHistory = filteredHistory.slice(0, 20);
+      
+      localStorage.setItem('searchHistory', JSON.stringify(limitedHistory));
+    } catch (error) {
+      console.error('Failed to save search history:', error);
+    }
+  }, []);
+
   const handleSearchChange = (value: string) => {
     setFilters(prev => ({ ...prev, searchTerm: value }));
+    if (value.trim()) {
+      saveSearchToHistory(value);
+    }
   };
 
   const filteredJobs = jobs.filter(job => {
-    // Match category
     const matchesCategory = 
       filters.category === 'All' ||
       (filters.category === 'Remote' && job.remote) ||
       (job.title && job.title.toLowerCase().includes(filters.category.toLowerCase()));
     
-    // Match location
     const matchesLocation =
       filters.location === 'All Locations' ||
       (filters.location === 'Remote Only' && job.remote) ||
       (job.location && job.location.toLowerCase().includes(filters.location.split(' ')[0].toLowerCase()));
     
-    // Match search term
     const searchLower = filters.searchTerm.toLowerCase();
     const matchesSearch =
       !filters.searchTerm ||
@@ -74,14 +99,13 @@ const Index = () => {
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-background dark:bg-[#121212]">
+    <div className="min-h-screen flex flex-col bg-background dark:bg-[#121212] pb-16">
       <Header 
         searchValue={filters.searchTerm}
         onSearchChange={handleSearchChange}
       />
       
       <main className="flex-1">
-        {/* Hero section */}
         <section className="relative py-8 md:py-12 overflow-hidden">
           <div className="absolute inset-0 -z-10 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10"></div>
@@ -91,16 +115,15 @@ const Index = () => {
           <div className="container px-4 sm:px-6 relative z-10">
             <AnimatedContainer className="max-w-3xl mx-auto text-center space-y-4">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-balance text-shadow dark:text-white">
-                Your Career Journey Starts Here
+                International Remote Jobs
               </h1>
               <p className="text-muted-foreground max-w-2xl mx-auto text-pretty dark:text-muted-foreground">
-                Discover opportunities that align with your skills and aspirations. We curate the best jobs from top companies around the world.
+                Find remote opportunities from US, India, and worldwide. We curate the best remote jobs from top companies around the globe.
               </p>
             </AnimatedContainer>
           </div>
         </section>
         
-        {/* Filter section */}
         <section className="py-4">
           <div className="container px-4 sm:px-6">
             <FilterPanel 
@@ -112,7 +135,6 @@ const Index = () => {
           </div>
         </section>
         
-        {/* Jobs list section */}
         <section className="py-6 md:py-8">
           <div className="container px-4 sm:px-6">
             {loading ? (
@@ -144,14 +166,6 @@ const Index = () => {
           </div>
         </section>
       </main>
-      
-      <footer className="py-6 md:py-8 border-t border-border/20 dark:border-border/10">
-        <div className="container px-4 sm:px-6">
-          <p className="text-sm text-center text-muted-foreground">
-            Job Safari — Find your next career opportunity with ease.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 };
