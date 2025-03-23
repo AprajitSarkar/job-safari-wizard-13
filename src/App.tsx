@@ -13,24 +13,44 @@ import ContactUs from "./pages/ContactUs";
 import SearchHistory from "./pages/SearchHistory";
 import BottomNavigation from "./components/BottomNavigation";
 import SplashScreen from "./components/SplashScreen";
+import GDPRConsent from "./components/GDPRConsent";
+import BannerAd from "./components/BannerAd";
+import { initializeAdMob, showAppOpenAd } from "./services/AdMobService";
+import { isPlatform } from "@capacitor/core";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [appReady, setAppReady] = useState(false);
+  const [showAds, setShowAds] = useState(false);
 
   useEffect(() => {
     // Check for system dark mode preference
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.classList.add('dark');
     }
+    
+    // Initialize AdMob when the app starts
+    const setupAds = async () => {
+      if (isPlatform('android') || isPlatform('ios')) {
+        await initializeAdMob();
+        setShowAds(true);
+      }
+    };
+    
+    setupAds();
   }, []);
 
   // Handle splash screen completion
-  const handleSplashComplete = () => {
+  const handleSplashComplete = async () => {
     setAppReady(true);
     setShowSplash(false);
+    
+    // Show app open ad when splash screen completes
+    if (showAds) {
+      await showAppOpenAd();
+    }
   };
 
   return (
@@ -53,7 +73,9 @@ const App = () => {
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <BottomNavigation />
+              {showAds && <BannerAd />}
             </div>
+            <GDPRConsent />
           </BrowserRouter>
         )}
       </TooltipProvider>

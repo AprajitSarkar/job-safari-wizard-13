@@ -4,6 +4,8 @@ import Header from '@/components/Header';
 import { ArrowLeftIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import AnimatedContainer from '@/components/AnimatedContainer';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { InfoIcon } from 'lucide-react';
 
 const PrivacyPolicy = () => {
   const navigate = useNavigate();
@@ -48,7 +50,34 @@ const PrivacyPolicy = () => {
               <p>
                 Our app uses advertising from AdMob and AppLovin to provide our services free of charge. 
                 These ad networks may collect and use data to deliver personalized advertising. 
-                You can learn more about how these networks handle your data by visiting their privacy policies.
+              </p>
+              
+              <Alert className="my-4 border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/50">
+                <InfoIcon className="h-4 w-4 mr-2 text-blue-500" />
+                <AlertDescription>
+                  <p className="font-medium">AdMob (Google)</p>
+                  <p className="mt-1">AdMob is Google's mobile advertising platform. We use AdMob to show banner ads and app open ads.</p>
+                  <p className="mt-1">AdMob may collect device identifiers, IP addresses, cookie information, and other usage data.</p>
+                  <p className="mt-1">To learn more about how Google uses data, visit: <a href="https://policies.google.com/privacy" className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a></p>
+                </AlertDescription>
+              </Alert>
+              
+              <h2 className="text-lg font-medium">GDPR Compliance</h2>
+              <p>
+                For users in the European Economic Area (EEA), we comply with the General Data Protection Regulation (GDPR).
+                Under GDPR, you have the following rights:
+              </p>
+              <ul className="pl-5 mt-2 space-y-2 list-disc">
+                <li>Right to access your personal data</li>
+                <li>Right to correction of inaccurate data</li>
+                <li>Right to deletion of your data</li>
+                <li>Right to restrict processing of your data</li>
+                <li>Right to data portability</li>
+                <li>Right to object to processing of your data</li>
+              </ul>
+              <p className="mt-2">
+                When you first use our application, you will be asked to consent to our use of advertising services that may process your personal data.
+                You may withdraw this consent at any time through the application settings.
               </p>
               
               <h2 className="text-lg font-medium">Contact Information</h2>

@@ -22,6 +22,11 @@ const config: CapacitorConfig = {
     },
     WebView: {
       allowNavigation: ['*']
+    },
+    AdMob: {
+      androidAppId: 'ca-app-pub-3940256099942544~3347511713', // Test App ID
+      iosAppId: 'ca-app-pub-3940256099942544~1458002511', // Test App ID
+      publisherDataConsentPersonalizedAds: true
     }
   }
 };
