@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -19,17 +19,51 @@ import BannerAd from "./components/BannerAd";
 import { initializeAdMob, showAppOpenAd } from "./services/AdMobService";
 import { Capacitor } from "@capacitor/core";
 
+// Create a new AppDownload component for web users
+const AppDownload = () => {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-4">
+      <div className="text-center max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 android-elevation-3">
+        <h1 className="text-2xl font-bold mb-4">Global Remote Jobs Finder</h1>
+        <p className="mb-6 text-gray-600 dark:text-gray-300">This application is only available as a mobile app. Please download it from the Google Play Store.</p>
+        
+        <a 
+          href="https://play.google.com/store/apps/details?id=com.multiple.cozmo" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+        >
+          Download from Google Play
+        </a>
+        
+        <div className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <a href="/privacy-policy-static" className="text-blue-500 hover:underline">
+            View Privacy Policy
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const queryClient = new QueryClient();
 
 // Main app content component that handles routing
 const AppContent = () => {
   const location = useLocation();
   const [showAds, setShowAds] = useState(false);
+  const isNative = Capacitor.isNativePlatform();
+  const isPrivacyPolicyRoute = location.pathname === '/privacy-policy-static';
+  
+  // Only allow web access to privacy policy page
+  if (!isNative && !isPrivacyPolicyRoute) {
+    return <AppDownload />;
+  }
   
   useEffect(() => {
     // Initialize AdMob for native platforms
     const setupAds = async () => {
-      if (Capacitor.isNativePlatform()) {
+      if (isNative) {
         await initializeAdMob();
         setShowAds(true);
         
@@ -41,7 +75,7 @@ const AppContent = () => {
     };
     
     setupAds();
-  }, [location.pathname]);
+  }, [location.pathname, isNative]);
 
   return (
     <div className="pb-16"> {/* Add padding to account for bottom navigation */}
@@ -55,7 +89,7 @@ const AppContent = () => {
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <BottomNavigation />
+      {isNative && <BottomNavigation />}
       {showAds && <BannerAd />}
     </div>
   );
@@ -64,6 +98,7 @@ const AppContent = () => {
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [appReady, setAppReady] = useState(false);
+  const isNative = Capacitor.isNativePlatform();
 
   // Check if the URL contains privacy-policy to skip splash screen
   const shouldSkipSplash = window.location.pathname.includes('privacy-policy');
@@ -74,12 +109,12 @@ const App = () => {
       document.documentElement.classList.add('dark');
     }
     
-    // Skip splash screen if going directly to privacy policy
-    if (shouldSkipSplash) {
+    // Skip splash screen if going directly to privacy policy or on web
+    if (shouldSkipSplash || !isNative) {
       setShowSplash(false);
       setAppReady(true);
     }
-  }, [shouldSkipSplash]);
+  }, [shouldSkipSplash, isNative]);
 
   // Handle splash screen completion
   const handleSplashComplete = async () => {
@@ -92,12 +127,12 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        {showSplash && !shouldSkipSplash ? (
+        {showSplash && !shouldSkipSplash && isNative ? (
           <SplashScreen onFinish={handleSplashComplete} />
         ) : (
           <BrowserRouter>
             <AppContent />
-            <GDPRConsent />
+            {isNative && <GDPRConsent />}
           </BrowserRouter>
         )}
       </TooltipProvider>
