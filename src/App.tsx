@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import PrivacyPolicyStatic from "./pages/PrivacyPolicyStatic";
 import ContactUs from "./pages/ContactUs";
 import SearchHistory from "./pages/SearchHistory";
 import BottomNavigation from "./components/BottomNavigation";
@@ -67,6 +68,7 @@ const App = () => {
                 <Route path="/" element={<Index />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/privacy-policy-static" element={<PrivacyPolicyStatic />} />
                 <Route path="/contact-us" element={<ContactUs />} />
                 <Route path="/search-history" element={<SearchHistory />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

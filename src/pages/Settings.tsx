@@ -33,7 +33,7 @@ const Settings = () => {
               
               <div 
                 className="flex items-center justify-between p-4 border-t cursor-pointer active:bg-muted/50 border-border/10"
-                onClick={() => navigate('/privacy-policy')}
+                onClick={() => navigate('/privacy-policy-static')}
               >
                 <div className="flex items-center space-x-3">
                   <div className="p-2 rounded-full bg-secondary/80 dark:bg-secondary/40">
