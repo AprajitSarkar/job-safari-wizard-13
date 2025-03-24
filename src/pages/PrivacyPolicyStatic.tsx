@@ -40,16 +40,19 @@ const PrivacyPolicyStatic = () => {
               
               <h2 className="text-lg font-medium">1. Introduction</h2>
               <p>
-                Welcome to RemoteJobFinder. This privacy policy explains how RemoteJobFinder ("we", "us", "our", "RemoteJobFinder") 
+                Welcome to Global Remote Jobs Finder. This privacy policy explains how Global Remote Jobs Finder ("we", "us", "our", "Global Remote Jobs Finder") 
                 collects, uses, and shares your information when you use our mobile application.
               </p>
               <p>
-                RemoteJobFinder is owned and operated by Aprajit Sarkar, contactable at aprajitsarkar242@gmail.com.
+                Global Remote Jobs Finder is owned and operated by SynthAlz, contactable at aprajitsarkar242@gmail.com.
+              </p>
+              <p>
+                App Package: com.multiple.cozmo
               </p>
               
               <h2 className="text-lg font-medium">2. Information We Collect</h2>
               <p>
-                When you use the RemoteJobFinder application, we may collect the following data:
+                When you use the Global Remote Jobs Finder application, we may collect the following data:
               </p>
               <ul className="pl-5 mt-2 space-y-2 list-disc">
                 <li>Search queries and history within the app (stored locally on your device)</li>
