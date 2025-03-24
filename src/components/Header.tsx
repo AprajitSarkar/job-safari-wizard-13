@@ -25,7 +25,7 @@ const Header = ({ className, searchValue = '', onSearchChange }: HeaderProps) =>
         <div className="flex items-center justify-between h-16">
           <AnimatedContainer className="flex items-center gap-2">
             <BriefcaseIcon className="w-5 h-5 text-primary" />
-            <span className="text-lg font-medium">Job Safari</span>
+            <span className="text-lg font-medium">Global Remote Jobs Finder</span>
           </AnimatedContainer>
           
           <AnimatedContainer delay={100} className="flex items-center gap-4">
